@@ -11,9 +11,9 @@ admin.site.login = login_required(admin.site.login)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    path("accounts/", include("accounts.urls")),
 
     path('', HomeView),
-    # path("accounts/", include("accounts.urls"))
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 

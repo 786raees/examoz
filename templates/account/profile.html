@@ -1,0 +1,14 @@
+{% extends 'base_app.html' %}{% load static crispy_forms_tags %}
+{% block title %}Examoz {% if request.user.get_full_name %}{{ request.user.get_full_name }}{% else %}{{ request.user.username }}{% endif %} profile{% endblock title %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {{profile_form|crispy}}
+            {{user_form|crispy}}
+            <button type="submit" class="btn btn-success bg-gradient waves-effect waves-light">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
