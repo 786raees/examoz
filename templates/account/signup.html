@@ -1,0 +1,8 @@
+{% extends 'account/login.html' %}
+
+{% block up %}
+up 
+{% endblock up %}
+{% block bot_msg %}
+<p class="mb-0">Already have an account ? <a href="{% url 'account_login' %}" class="fw-semibold text-primary text-decoration-underline"> Login </a> </p>
+{% endblock bot_msg %}

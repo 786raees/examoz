@@ -1,13 +1,20 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from accounts.views import HomeView
+from django.contrib.auth.decorators import login_required
+
+admin.site.login = login_required(admin.site.login)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', HomeView.as_view()),
+    path('accounts/', include('allauth.urls')),
+
+    path('', HomeView),
+    # path("accounts/", include("accounts.urls"))
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 if settings.DEBUG:
