@@ -70,6 +70,13 @@ INTERNAL_IPS = [
 
 ACCOUNT_EMAIL_REQUIRED=True
 
+
+"""
+ACCOUNT_EMAIL_VERIFICATION (=”optional”)
+Determines the e-mail verification method during signup - choose one of "mandatory", "optional", or "none".
+"""
+ACCOUNT_EMAIL_VERIFICATION='none'
+
 ACCOUNT_AUTHENTICATION_METHOD='username_email'
 
 ROOT_URLCONF = 'examoz.urls'
@@ -169,3 +176,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #  Add configuration for static files storage using whitenoise
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+
+# SMTP services
+# https://bshoo.medium.com/how-to-send-emails-with-python-django-through-google-smtp-server-for-free-22ea6ea0fb8e
+"""I turn it of because admin will provide its w=own email cridentials"""
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'your_account@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your account\'s password'
