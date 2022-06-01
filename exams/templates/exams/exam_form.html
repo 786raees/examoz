@@ -1,0 +1,17 @@
+{% extends 'base_app.html' %}{% load static crispy_forms_tags %}
+{% block title %}Add/Modify Exam{% endblock title %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1>Add/Modify Exam</h1>
+    </div>
+    <div class="card-body">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <!-- Gradient Buttons -->
+            <button type="submit" class="btn mt-4 btn-primary bg-gradient waves-effect waves-light">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

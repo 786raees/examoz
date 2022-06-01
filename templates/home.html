@@ -12,7 +12,10 @@ Examoz Dashboard
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Add, Edit & Remove</h4>
+                <div class="row">
+                <h2 class="col-md-7 text-center mt-2">Add, Edit & Remove</h4>
+                    <h4 class="card-title mb-0 text-center border border-primary text-primary rounded p-2 col-md-3">Total Exams {{object_list.count}}</h4>
+                </div>
             </div><!-- end card header -->
 
             <div class="card-body">
@@ -20,7 +23,7 @@ Examoz Dashboard
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div>
-                                <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Add</button>
+                                <a href="{% url 'exams:exam_add_view' %}" type="button" class="btn btn-success add-btn" ><i class="ri-add-line align-bottom me-1"></i> Add</a>
                                 <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                             </div>
                         </div>
@@ -61,7 +64,7 @@ Examoz Dashboard
                                         </div>
                                     </th>
                                     <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
-                                    <td class="customer_name">{{ object.title }}</td>
+                                    <td class="customer_name"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></td>
                                     <td class="email">marycousar@velzon.com</td>
                                     <td class="phone">580-464-4694</td>
                                     <td class="date">06 Apr, 2021</td>
@@ -69,7 +72,7 @@ Examoz Dashboard
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="edit">
-                                                <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#showModal">Edit</button>
+                                                <a role="button" href="{% url 'exams:exam_update_view' object.pk %}" class="btn btn-sm btn-success edit-item-btn" >Edit</a>
                                             </div>
                                             <div class="remove">
                                                 <!-- <a role="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteRecordModal">Remove</a> -->
