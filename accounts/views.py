@@ -2,11 +2,10 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ProfileForm, UpdateUserForm
-# Create your views here.
 
 @login_required
 def HomeView(request):
-    return render(request, 'base_app.html')
+    return render(request, 'home.html')
 
 
 def edit_profile_view(request):

@@ -13,7 +13,8 @@
         <meta content="waqar khan" name="author" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
-
+        
+        <link href="{% static 'assets/libs/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
         <!-- Layout config Js -->
         <script src="{% static 'assets/js/layout.js' %}"></script>
         <!-- Bootstrap Css -->
@@ -24,7 +25,9 @@
         <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
         <link href="{% static 'assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
+        {% block extra_css %}
 
+        {% endblock extra_css %}
 
     </head>
 {% block body %}
@@ -69,7 +72,7 @@
                 <!-- App Search-->
                 <form class="app-search d-none d-md-block">
                     <div class="position-relative">
-                        <input type="text" class="form-control" placeholder="Search..." autocomplete="off"
+                        <input type="text" class="form-control" placeholder="Search Exams | Students" autocomplete="off"
                             id="search-options" value="">
                         <span class="mdi mdi-magnify search-widget-icon"></span>
                         <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
@@ -974,7 +977,7 @@
                                 <div class="collapse menu-dropdown" id="sidebarTests">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link" data-key="t-basic-Tests">Dashboard</a>
+                                            <a href="/" class="nav-link" data-key="t-basic-Tests">Dashboard</a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="#" class="nav-link" data-key="Create-New-Test">Create New Test</a>
@@ -1193,12 +1196,14 @@
                         {% if messages %}
                         {% for message in messages %}
                         <div class="alert alert-{{message.tags}} alert-solid" role="alert">
-                            {{message}}
+                            {{message|safe}}
                         </div>
                         {% endfor %}
                         {% endif %}
 
-{% block content %}{% endblock content %}
+{% block content %}
+
+{% endblock content %}
                         <!-- start page title -->
                         {% comment %} <div class="row">
                             <div class="col-12">
@@ -1255,9 +1260,9 @@
         <script src="{% static 'assets/js/plugins.js' %}"></script>
         
         <!-- App js -->
+        {% block js_extra %}{% endblock js_extra %}
         <script src="{% static 'assets/js/app.js' %}"></script>
 {% endblock js %}
-{% block js_extra %}{% endblock js_extra %}
     </body>
 
 {% endblock body %}

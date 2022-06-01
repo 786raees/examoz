@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
+    'exams.apps.ExamsConfig',
     'crispy_forms',
     'debug_toolbar',
+    'django_seed',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -64,6 +66,8 @@ MIDDLEWARE = [
 
 ]
 
+# django allauth
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
