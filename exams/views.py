@@ -5,7 +5,7 @@ from django.views.generic import ListView
 from .models import Exam
 # Create your views here.
 
-class ExamList(ListView, LoginRequiredMixin):
+class ExamList(LoginRequiredMixin,ListView):
     model = Exam
     template_name='home.html'
 
