@@ -9,6 +9,7 @@ User = get_user_model()
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='user/photo', default='default.jpg')
+    is_dark = models.BooleanField(default=False)
 
 
 @receiver(post_save, sender=User)

@@ -1,6 +1,9 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+
+from accounts.models import Profile
 from .forms import ProfileForm, UpdateUserForm
 
 @login_required
@@ -26,3 +29,10 @@ def edit_profile_view(request):
     }
 
     return render(request, 'account/profile.html', context)
+
+
+def change_theme(request):
+    user_profile = Profile.objects.get(user=request.user)
+    user_profile.is_dark = not user_profile.is_dark
+    user_profile.save()
+    return HttpResponse('changed')

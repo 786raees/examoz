@@ -1,6 +1,6 @@
 {% load static %}
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-layout-mode="{% if request.user.profile.is_dark %}dark{% else %}light{% endif %}" data-sidebar-size="lg">
 
 <head>
         
@@ -25,6 +25,7 @@
         <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
         <link href="{% static 'assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
+        <script src="{% static 'assets/js/jq.js' %}"></script>
         {% block extra_css %}
 
         {% endblock extra_css %}
@@ -988,7 +989,33 @@
                                     </ul>
                                 </div>
                             </li>
-
+                            {% if object %}
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#sidebarTestsobj" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="false" aria-controls="sidebarTestsobj">
+                                    <i class=" ri-file-text-line"></i> <span data-key="t-Tests">{{ object.title|slice:"20" }}{% if object.title|length > 19 %}...{% endif %}</span>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarTestsobj">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{% url 'exams:exam_detail_view' object.id %}" class="nav-link" data-key="t-basic-Tests">Dashboard</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link" data-key="Create-New-Test">Settings</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link" data-key="t-list-js">Questions</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link" data-key="Publish-js">Publish</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link" data-key="Result-js">Result</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            {% endif %}
                             {% comment %} <li class="nav-item">
                                 <a class="nav-link menu-link" href="#sidebarCharts" data-bs-toggle="collapse" role="button"
                                     aria-expanded="false" aria-controls="sidebarCharts">
@@ -1262,6 +1289,17 @@
         <!-- App js -->
         {% block js_extra %}{% endblock js_extra %}
         <script src="{% static 'assets/js/app.js' %}"></script>
+        <script>
+            $(document).ready(function () {
+                $('.light-dark-mode').click(function (e) { 
+                    e.preventDefault();
+                    $.ajax({
+                        type: "get",
+                        url: "{% url 'accounts:change_theme' %}",
+                    });
+                });
+            });
+        </script>
 {% endblock js %}
     </body>
 

@@ -34,14 +34,14 @@ class ExamList(LoginRequiredMixin, ListView):
 
 class ExamCreateView(LoginRequiredMixin, UnSuccessMessageMixin, CreateView):
     model = Exam
-    fields = "__all__"
+    fields = ('title',)
 
 
 class ExamUpdateView(LoginRequiredMixin, UnSuccessMessageMixin, UpdateView):
     model = Exam
     # unsuccess_message = 'Exam did not update because of following error'
     success_message = '"<strong>%(title)s</strong>" updated successfully'
-    fields = "__all__"
+    fields = ('title',)
 
 
 def delete_exam(request, pk):
