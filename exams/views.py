@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from .models import Exam
+from .forms import ExamSettingsForm, QuestionInsert
 # Create your views here.
 
 
@@ -54,3 +55,15 @@ def delete_exam(request, pk):
 
 class ExamDetailView(DetailView):
     model = Exam
+
+
+class ExamSettingUpdateView(LoginRequiredMixin, UnSuccessMessageMixin, UpdateView):
+    model = Exam
+    form_class = ExamSettingsForm
+    template_name = 'exams/exam_settings.html'
+    success_message = '"<strong>%(title)s</strong>" updated successfully'
+
+def question_add_page(request, pk):
+    insert_question_form = QuestionInsert()
+    context = {'insert_question_form':insert_question_form}
+    return render(request, 'exams/question_form.html', context)

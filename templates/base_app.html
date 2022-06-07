@@ -1001,10 +1001,10 @@
                                             <a href="{% url 'exams:exam_detail_view' object.id %}" class="nav-link" data-key="t-basic-Tests">Dashboard</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link" data-key="Create-New-Test">Settings</a>
+                                            <a href="{% url 'exams:exam_setting_update_view' object.id %}" class="nav-link" data-key="Create-New-Test">Settings</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link" data-key="t-list-js">Questions</a>
+                                            <a href="{% url 'exams:question_add_view' object.id %}" class="nav-link" data-key="t-list-js">Questions</a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="#" class="nav-link" data-key="Publish-js">Publish</a>

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'debug_toolbar',
     'django_seed',
+    'ckeditor',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

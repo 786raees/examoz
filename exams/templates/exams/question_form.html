@@ -1,0 +1,21 @@
+{% extends 'base_app.html' %}{% load crispy_forms_tags %}
+{% block title %}Add Question{% endblock title %}
+{% block content %}
+<div class="row">
+    <div class="col-12" id="add_question"></div>
+    <div class="col-12 m-4">
+        <div class="bg-primary p-2 rounded text-white">{{insert_question_form.question_type|as_crispy_field}}</div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js_extra %}
+<script>
+    $('#id_question_type').change(function (e) { 
+        e.preventDefault();
+        $('#add_question').html(`{{insert_question_form}}`);
+        console.log(e.target.value)
+        
+    });
+</script>
+{% endblock js_extra %}
