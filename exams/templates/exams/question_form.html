@@ -7,15 +7,85 @@
         <div class="bg-primary p-2 rounded text-white">{{insert_question_form.question_type|as_crispy_field}}</div>
     </div>
 </div>
+
+
 {% endblock content %}
 
 {% block js_extra %}
 <script>
+    var current_question_no = 0;
+
     $('#id_question_type').change(function (e) { 
         e.preventDefault();
-        $('#add_question').html(`{{insert_question_form}}`);
-        console.log(e.target.value)
+        if(e.target.value == "Multiple Choices (choose one)"){
+        current_question_no += 1;
+            $('#add_question').append(`
+            <div class="card card-no-${current_question_no}">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-11">
+                            <h4>Question no ${current_question_no}</h4>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger btn-sm text-white delete-card-btn">
+                                <i class="ri-close-line"></i>    
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10">
+                            <div id="div_id_question_title__question_${current_question_no}" class="form-group">
+                            <label for="id_question_title__question_${current_question_no}" class="requiredField">
+                                Question title<span class="asteriskField">*</span>
+                            </label>
+                            <div>
+                                <textarea
+                                name="question_title__question_${current_question_no}"
+                                cols="40"
+                                rows="3"
+                                class="textarea form-control"
+                                required=""
+                                id="id_question_title__question_${current_question_no}"
+                                ></textarea>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div id="div_id_question_marks__question_${current_question_no}" class="form-group">
+                                <label for="id_question_marks__question_${current_question_no}" class="requiredField">
+                                    Question marks<span class="asteriskField">*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type="number"
+                                        name="question_marks__question_${current_question_no}"
+                                        min="0"
+                                        class="numberinput form-control"
+                                        required=""
+                                        id="id_question_marks__question_${current_question_no}"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 m-2">{{insert_question_form.question_explanation|as_crispy_field}}</div>
+                        <div class="col-12 m-2">{{insert_question_form.question_explanation_text|as_crispy_field}}</div>
+                    </div>
+                </div>
+            </div>
+
+            `)
+        };
         
     });
+
+    $('.delete-card-btn').click(function (e) { 
+        let elementToRemove = e.target.closest('.card');
+        elementToRemove.remove();
+        // console.log($('.card').length);
+    });
+
+    console.clear()
 </script>
 {% endblock js_extra %}

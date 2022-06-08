@@ -62,9 +62,9 @@ class Question(models.Model):
         essay = 'Essay','Essay'
 
     question_type = models.CharField(choices=QUESTIONTYPE.choices, blank=True, null=True, max_length=30)
-    question_title = RichTextField()
+    question_title = models.TextField()
     question_marks = models.PositiveIntegerField()
     question_explanation = models.BooleanField(default=False)
-    question_explanation_text = RichTextField()
+    question_explanation_text = models.TextField()
 
 
