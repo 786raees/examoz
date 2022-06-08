@@ -68,3 +68,10 @@ class Question(models.Model):
     question_explanation_text = models.TextField()
 
 
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.TextField()
+
+class Option(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    option = models.TextField()

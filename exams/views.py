@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from .models import Exam
+from .models import Exam, Question, Answer, Option
 from .forms import ExamSettingsForm, QuestionInsert
 # Create your views here.
 
@@ -63,7 +63,32 @@ class ExamSettingUpdateView(LoginRequiredMixin, UnSuccessMessageMixin, UpdateVie
     template_name = 'exams/exam_settings.html'
     success_message = '"<strong>%(title)s</strong>" updated successfully'
 
+
 def question_add_page(request, pk):
+
     insert_question_form = QuestionInsert()
-    context = {'insert_question_form':insert_question_form}
+    if request.method == "POST":
+
+        for q in request.POST:
+
+            # print(request.POST.get('question_title__question_1'))
+            if q.startswith('question_title__question_'):
+                title = request.POST.get(q)
+
+            if q.startswith('question_marks__question_'):
+                marks = request.POST.get(q)
+                question = Question(question_title=title, question_marks=marks)
+                question.save()
+
+            if q.startswith('option_value_'):
+                question_option = request.POST.get(q)
+                option = Option(question=question, option=question_option)
+                option.save()
+
+            if q.startswith('answer_for_'):
+                question_answer = request.POST.get(q)
+                answer = Answer(question=question, answer=question_answer)
+                answer.save()
+
+    context = {'insert_question_form': insert_question_form}
     return render(request, 'exams/question_form.html', context)

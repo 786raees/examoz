@@ -1,11 +1,11 @@
 {% extends 'base_app.html' %}{% load crispy_forms_tags %} {% block title %}Add
 Question{% endblock title %} {% block content %}
 <div class="row">
-    <form method="post">
-        {% csrf_token %}
-        <div class="col-12" id="add_question"></div>
-        <button type="submit" class="btn btn-success col-4">Save</button>
-    </form>
+  <form method="post" id="question_form">
+    {% csrf_token %}
+    <div class="col-12" id="add_question"></div>
+    <button type="submit" class="btn btn-success col-4">Save</button>
+  </form>
   <div class="col-12 m-4">
     <div class="bg-primary p-2 rounded text-white">
       {{insert_question_form.question_type|as_crispy_field}}
@@ -18,6 +18,20 @@ Question{% endblock title %} {% block content %}
   $(document).ready(function () {
     var current_question_no = "";
     var option_no = "";
+    $("#question_form").submit(function (e) {
+      e.preventDefault();
+      console.log($(this).serializeArray());
+      var question_data = $(this).serializeArray();
+      $.ajax({
+          type: "post",
+          url: ".",
+          data: question_data,
+          success: function (response) {
+              alert('exam saved successfully')
+          }
+      });
+    });
+
     $("#id_question_type").change(function (e) {
       option_no = 5;
       current_question_no = $(".card").length;
@@ -78,10 +92,10 @@ Question{% endblock title %} {% block content %}
                             <div class="form-check m-2 option_no_1">
                                 <div class="row">
                                     <div class="col-1">
-                                        <input class="form-check-input mt-2" checked type="radio" value="1" name="option_for_${current_question_no}" id="option_1_for_${current_question_no}"/>
+                                        <input class="form-check-input mt-2" checked type="radio" value="1" name="answer_for_${current_question_no}" id="option_1_for_${current_question_no}"/>
                                     </div>
                                     <div class="col-10">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="option_value_1_for_${current_question_no}">
                                     </div>
                                     <div class="col-1">
                                         <button class="btn btn-danger btn-sm text-white delete-check-btn">
@@ -93,10 +107,10 @@ Question{% endblock title %} {% block content %}
                             <div class="form-check m-2 option_no_2">
                                 <div class="row">
                                     <div class="col-1">
-                                        <input class="form-check-input mt-2" type="radio" value="2" name="option_for_${current_question_no}" id="option_2_for_${current_question_no}"/>
+                                        <input class="form-check-input mt-2" type="radio" value="2" name="answer_for_${current_question_no}" id="option_2_for_${current_question_no}"/>
                                     </div>
                                     <div class="col-10">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="option_value_2_for_${current_question_no}">
                                     </div>
                                     <div class="col-1">
                                         <button class="btn btn-danger btn-sm text-white delete-check-btn">
@@ -108,10 +122,10 @@ Question{% endblock title %} {% block content %}
                             <div class="form-check m-2 option_no_3">
                                 <div class="row">
                                     <div class="col-1">
-                                        <input class="form-check-input mt-2" type="radio" value="3" name="option_for_${current_question_no}" id="option_3_for_${current_question_no}"/>
+                                        <input class="form-check-input mt-2" type="radio" value="3" name="answer_for_${current_question_no}" id="option_3_for_${current_question_no}"/>
                                     </div>
                                     <div class="col-10">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="option_value_3_for_${current_question_no}">
                                     </div>
                                     <div class="col-1">
                                         <button class="btn btn-danger btn-sm text-white delete-check-btn">
@@ -123,10 +137,10 @@ Question{% endblock title %} {% block content %}
                             <div class="form-check m-2 option_no_4">
                                 <div class="row">
                                     <div class="col-1">
-                                        <input class="form-check-input mt-2" type="radio" value="4" name="option_for_${current_question_no}" id="option_4_for_${current_question_no}"/>
+                                        <input class="form-check-input mt-2" type="radio" value="4" name="answer_for_${current_question_no}" id="option_4_for_${current_question_no}"/>
                                     </div>
                                     <div class="col-10">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="option_value_4_for_${current_question_no}">
                                     </div>
                                     <div class="col-1">
                                         <button class="btn btn-danger btn-sm text-white delete-check-btn">
@@ -136,7 +150,7 @@ Question{% endblock title %} {% block content %}
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-info text-white add_ques" question_no="add_ques__question_${current_question_no}">Add Options</button>
+                        <button type="button" class="btn btn-info text-white add_ques" question_no="add_ques__question_${current_question_no}">Add Options</button>
                     </div>
                 </div>
             </div>
@@ -165,10 +179,10 @@ Question{% endblock title %} {% block content %}
             <div class="form-check m-2 option_no_${option_no}">
                 <div class="row">
                     <div class="col-1">
-                        <input class="form-check-input mt-2" type="radio" value="${option_no}" name="option_for_${current_question_no}" id="option_for_${current_question_no}"/>
+                        <input class="form-check-input mt-2" type="radio" value="${option_no}" name="answer_for_${current_question_no}" id="answer_for_${current_question_no}"/>
                     </div>
                     <div class="col-10">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="option_value_${option_no}_for_${current_question_no}">
                     </div>
                     <div class="col-1">
                         <button class="btn btn-danger btn-sm text-white delete-check-btn">
