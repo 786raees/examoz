@@ -1287,8 +1287,8 @@
         <script src="{% static 'assets/js/plugins.js' %}"></script>
         
         <!-- App js -->
-        {% block js_extra %}{% endblock js_extra %}
         <script src="{% static 'assets/js/app.js' %}"></script>
+        {% block js_extra %}{% endblock js_extra %} 
         <script>
             $(document).ready(function () {
                 $('.light-dark-mode').click(function (e) { 

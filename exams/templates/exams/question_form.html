@@ -1,25 +1,30 @@
-{% extends 'base_app.html' %}{% load crispy_forms_tags %}
-{% block title %}Add Question{% endblock title %}
-{% block content %}
+{% extends 'base_app.html' %}{% load crispy_forms_tags %} {% block title %}Add
+Question{% endblock title %} {% block content %}
 <div class="row">
-    <div class="col-12" id="add_question"></div>
-    <div class="col-12 m-4">
-        <div class="bg-primary p-2 rounded text-white">{{insert_question_form.question_type|as_crispy_field}}</div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="col-12" id="add_question"></div>
+        <button type="submit" class="btn btn-success col-4">Save</button>
+    </form>
+  <div class="col-12 m-4">
+    <div class="bg-primary p-2 rounded text-white">
+      {{insert_question_form.question_type|as_crispy_field}}
     </div>
+  </div>
 </div>
 
-
-{% endblock content %}
-
-{% block js_extra %}
+{% endblock content %} {% block js_extra %}
 <script>
-    var current_question_no = 0;
-
-    $('#id_question_type').change(function (e) { 
-        e.preventDefault();
-        if(e.target.value == "Multiple Choices (choose one)"){
+  $(document).ready(function () {
+    var current_question_no = "";
+    var option_no = "";
+    $("#id_question_type").change(function (e) {
+      option_no = 5;
+      current_question_no = $(".card").length;
+      e.preventDefault();
+      if (e.target.value == "Multiple Choices (choose one)") {
         current_question_no += 1;
-            $('#add_question').append(`
+        $("#add_question").append(`
             <div class="card card-no-${current_question_no}">
                 <div class="card-header">
                     <div class="row">
@@ -44,7 +49,7 @@
                                 <textarea
                                 name="question_title__question_${current_question_no}"
                                 cols="40"
-                                rows="3"
+                                rows="2"
                                 class="textarea form-control"
                                 required=""
                                 id="id_question_title__question_${current_question_no}"
@@ -69,23 +74,115 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 m-2">{{insert_question_form.question_explanation|as_crispy_field}}</div>
-                        <div class="col-12 m-2">{{insert_question_form.question_explanation_text|as_crispy_field}}</div>
+                        <div class="row" id="add_ques__question_${current_question_no}">
+                            <div class="form-check m-2 option_no_1">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <input class="form-check-input mt-2" checked type="radio" value="1" name="option_for_${current_question_no}" id="option_1_for_${current_question_no}"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger btn-sm text-white delete-check-btn">
+                                            <i class="ri-close-line"></i>    
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check m-2 option_no_2">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <input class="form-check-input mt-2" type="radio" value="2" name="option_for_${current_question_no}" id="option_2_for_${current_question_no}"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger btn-sm text-white delete-check-btn">
+                                            <i class="ri-close-line"></i>    
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check m-2 option_no_3">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <input class="form-check-input mt-2" type="radio" value="3" name="option_for_${current_question_no}" id="option_3_for_${current_question_no}"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger btn-sm text-white delete-check-btn">
+                                            <i class="ri-close-line"></i>    
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check m-2 option_no_4">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <input class="form-check-input mt-2" type="radio" value="4" name="option_for_${current_question_no}" id="option_4_for_${current_question_no}"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger btn-sm text-white delete-check-btn">
+                                            <i class="ri-close-line"></i>    
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-info text-white add_ques" question_no="add_ques__question_${current_question_no}">Add Options</button>
                     </div>
                 </div>
             </div>
 
-            `)
-        };
-        
+            `);
+      }
+
+      e.target.value = "";
     });
 
-    $('.delete-card-btn').click(function (e) { 
-        let elementToRemove = e.target.closest('.card');
+    $(document).click(function (e) {
+      var eclass = e.target.getAttribute("class");
+      //   console.log(eclass);
+      if (eclass.includes("delete-card-btn")) {
+        let elementToRemove = e.target.closest(".card");
         elementToRemove.remove();
-        // console.log($('.card').length);
+      }
+      if (eclass.includes("delete-check-btn")) {
+        let elementToRemove = e.target.closest(".form-check");
+        elementToRemove.remove();
+      }
+      if (eclass.includes("add_ques")) {
+        let question_no = e.target.getAttribute("question_no");
+        let add_option_section = $(`#${question_no}`);
+        add_option_section.append(`
+            <div class="form-check m-2 option_no_${option_no}">
+                <div class="row">
+                    <div class="col-1">
+                        <input class="form-check-input mt-2" type="radio" value="${option_no}" name="option_for_${current_question_no}" id="option_for_${current_question_no}"/>
+                    </div>
+                    <div class="col-10">
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-danger btn-sm text-white delete-check-btn">
+                            <i class="ri-close-line"></i>    
+                        </button>
+                    </div>
+                </div>
+            </div>
+            `);
+        option_no += 1;
+        console.log(add_option_section);
+      }
     });
-
-    console.clear()
+    console.clear();
+  });
 </script>
 {% endblock js_extra %}
