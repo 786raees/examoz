@@ -33,7 +33,7 @@
                 <p class="mb-0">Publish and distribute the exam amoung your students and collect results.</p>
             </div>
         </a>
-        <a href="/" class="card ribbon-box border shadow-none overflow-hidden">
+        <a href="{% url 'exams:result_page' object.id %}" class="card ribbon-box border shadow-none overflow-hidden">
             <div class="card-body text-muted">
                 <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
                     <span class="trending-ribbon-text">Results</span> <i class=" ri-profile-fill text-white align-bottom float-end ms-1"></i>

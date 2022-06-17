@@ -9,25 +9,49 @@
     </div>
   </div>
   <div class="row m-4">
-    {% if object.exam_daata.all %} 
-    <form method="post" id="examForm" action="{% url 'exams:exam_form_handler' %}">
-    {% csrf_token %}
-    {% for question in object.exam_daata.all %}
-    <div class="card">
-      <h3>
-        <div class="card-header">
-          <div class="row">
-            <div class="col-1">{{forloop.counter}} -</div>
-            <div class="col-10">{{question.question_title}}</div>
-            <div class="col-1">{{question.question_marks}}</div>
+    {% if object.exam_daata.all %}
+    <form
+      method="post"
+      id="examForm"
+      action="{% url 'exams:exam_form_handler' %}"
+    >
+    {% csrf_token %} 
+        <input
+        type="hidden"
+        name="email"
+        value="{{email}}"
+        />
+        <input
+        type="hidden"
+        name="exam_id"
+        value="{{object.id}}"
+        />
+      {% for question in object.exam_daata.all %}
+      <input
+        type="hidden"
+        name="{{question_id}}"
+        value="{{question.id}}"
+        />
+      <div class="card">
+        <h3>
+          <div class="card-header">
+            <div class="row">
+              <div class="col-1">{{forloop.counter}} -</div>
+              <div class="col-10">{{question.question_title}}</div>
+              <div class="col-1">{{question.question_marks}}</div>
+            </div>
           </div>
-        </div>
-      </h3>
-      <div class="card-body">
+        </h3>
+        {% if question.question_type == "Multiple Choices (choose one)" %}
+        <div class="card-body">
           {% for answer in question.answer_set.all %}
-          <input type="hidden" name="answer_for_{{forloop.parentloop.counter}}_{{forloop.counter}}" value="{{answer.answer}}">
-           
-          {% endfor %}
+          <input
+            type="hidden"
+            name="answer_for_{{question.id}}_{{forloop.counter}}"
+            value="{{answer.answer}}"
+          />
+
+          {% endfor %} 
           {% for option in question.option_set.all %}
           <div class="row">
             <div class="col-12 m-2">
@@ -35,10 +59,11 @@
                 <label class="form-check-label">
                   <input
                     type="radio"
+                    required
                     class="form-check-input"
-                    name="option_for_{{forloop.parentloop.counter}}_{{forloop.counter}}"
+                    name="option_for_{{question.id}}"
                     id="option"
-                    value="{{option.option}}"
+                    value="{{option.option}}_{{forloop.counter}}"
                   />
                   {{option.option}}
                 </label>
@@ -47,12 +72,17 @@
           </div>
           {% endfor %}
         </div>
-    </div>
-    {% endfor %} 
-</form>
-<button type="submit" form="examForm" class="btn col-11 btn-success btn-lg btn-block">
-  submit
-</button>
+        {% endif %} 
+      </div>
+      {% endfor %}
+    </form>
+    <button
+      type="submit"
+      form="examForm"
+      class="btn col-11 btn-success btn-lg btn-block"
+    >
+      submit
+    </button>
     {% endif %}
   </div>
 </div>

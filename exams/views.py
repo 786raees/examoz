@@ -71,14 +71,18 @@ def question_add_page(request, pk):
 
         for q in request.POST:
             if q:
+
                 # print(request.POST.get('question_title__question_1'))
+                if q.startswith('question_type_for_'):
+                    type = request.POST.get(q)
                 if q.startswith('question_title__question_'):
                     title = request.POST.get(q)
 
                 if q.startswith('question_marks__question_'):
                     marks = request.POST.get(q)
                     question = Question(
-                        question_title=title, question_marks=marks, exam_name=exam)
+                        question_type=type, question_title=title,
+                        question_marks=marks, exam_name=exam)
                     question.save()
 
                 if q.startswith('option_value_'):
@@ -122,7 +126,33 @@ def take_student_identity(request, uid):
 
 
 def exam_form_handler(request):
-    rp = request.POST
-    print(rp)
-    context = {'rp':rp}
-    return render(request, 'exams/exam_result.html', context)
+
+    for q in request.POST:
+
+        if q.startswith('email'):
+            email = request.POST.get(q)
+
+        if q.startswith('exam_id'):
+            exam_id = request.POST.get(q)
+
+        if q.startswith('answer_for_'):
+            answer = request.POST.get(q)
+
+        if q.startswith('option_for_'):
+            option = request.POST.get(q).split("_")[-1]
+            question_no = str(q).replace('option_for_','')
+            answers_list = []
+            for q in request.POST:
+                if q.startswith(f'answer_for_{question_no}'):
+                    answers_list.append(request.POST.get(q))
+                    print(q,request.POST.get(q))
+            print(option in answers_list)
+
+    return render(request, 'exams/exam_result.html')
+
+
+def result_page(request, pk):
+    exam = Exam.objects.filter(pk=pk).first()
+    context = {'object': exam}
+
+    return render(request, 'exams/result_page.html', context)

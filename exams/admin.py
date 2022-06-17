@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Answer, Exam, Option, Question
+from .models import Answer, Exam, Option, Question, Result
 # Register your models here.
 
 @admin.register(Exam)
@@ -17,3 +17,7 @@ class AnswerAdmin(admin.ModelAdmin):
 @admin.register(Option)
 class OptionAdmin(admin.ModelAdmin):
     list_display = ('question','option',)
+
+@admin.register(Result)
+class ResultAdmin(admin.ModelAdmin):
+    list_display = ('email','exam')

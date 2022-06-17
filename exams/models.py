@@ -72,11 +72,28 @@ class Question(models.Model):
     question_explanation = models.BooleanField(default=False)
     question_explanation_text = models.TextField()
 
+    def __str__(self):
+        return str(self.question_title)
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.TextField()
 
+    def __str__(self):
+        return str(self.answer)
+
 class Option(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     option = models.TextField()
+
+    def __str__(self):
+        return str(self.option)
+
+
+class Result(models.Model):
+    email = models.EmailField(max_length=254)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    question = models.ManyToManyField(Question)
+
+    def __str__(self):
+        return str(self.email)

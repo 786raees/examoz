@@ -4,7 +4,7 @@ Question{% endblock title %} {% block content %}
   <form method="post" id="question_form">
     {% csrf_token %}
     <div class="col-12" id="add_question"></div>
-    <button type="submit" class="btn btn-success disabled col-4 submit-btn">
+    <button type="submit" class="btn btn-success disabled  mx-4 col-12 submit-btn">
       Save
     </button>
   </form>
@@ -58,6 +58,7 @@ Question{% endblock title %} {% block content %}
         current_question_no += 1;
         $("#add_question").append(`
             <div class="card card-no-${current_question_no}">
+                <input type="hidden" name="question_type_for_${current_question_no}" value="${e.target.value}">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-11">

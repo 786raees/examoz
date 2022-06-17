@@ -13,6 +13,7 @@ urlpatterns = [
     path("exam/setting/change/<int:pk>/", exam_view.ExamSettingUpdateView.as_view(), name="exam_setting_update_view"),
     path("exam/question/add/<int:pk>/", exam_view.question_add_page, name="question_add_view"),
     path("exam/publish/<int:uid>/", exam_view.publish_page, name="publish_page"),
+    path("exam/result/<int:pk>/", exam_view.result_page, name="result_page"),
     path("exam/exam_form_handler/", exam_view.exam_form_handler, name="exam_form_handler"),
 
 
