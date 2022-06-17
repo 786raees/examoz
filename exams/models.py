@@ -2,9 +2,12 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from ckeditor.fields import RichTextField
+import uuid
 
 # Create your models here.
 class Exam(models.Model):
+
+    uid = models.UUIDField(unique=True, default=uuid.uuid4)
 
     title = models.CharField(_("title"), max_length=50)
     introduction = RichTextField(null=True, blank=True, help_text="<br>This text is displayed on the top of the test.")
@@ -40,6 +43,7 @@ class Exam(models.Model):
     avg_score = models.CharField(_("avg score"), max_length=50,null=True)
     date_created = models.DateField(auto_now_add=True)
     date_updated = models.DateField(auto_now=True)
+    is_publish = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Exam'
@@ -62,6 +66,7 @@ class Question(models.Model):
         essay = 'Essay','Essay'
 
     question_type = models.CharField(choices=QUESTIONTYPE.choices, blank=True, null=True, max_length=30)
+    exam_name = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='exam_daata')
     question_title = models.TextField()
     question_marks = models.PositiveIntegerField()
     question_explanation = models.BooleanField(default=False)

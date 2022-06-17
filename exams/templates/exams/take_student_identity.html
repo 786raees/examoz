@@ -1,0 +1,23 @@
+{% extends 'base_app.html' %}
+{% block title %}Enter Email{% endblock title %}
+{% block body %}
+<div class="container">
+    <div class="row m-5">
+        <div class="card text-center">
+            <div class="card-header"><h3>{{object.title}}</h3></div>
+            <div class="card-body">
+                <div class="col-12">
+                    <h4>Please enter your school email address</h4>
+                </div>
+                <div class="col-12">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input autofocus type="email" name="identity" class="form-control" required>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block col-11 m-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

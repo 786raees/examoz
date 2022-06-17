@@ -15,7 +15,7 @@
                 <p class="mb-0">Change test name, description and what happens after the test is graded.</p>
             </div>
         </a>
-        <a href="/" class="card ribbon-box border shadow-none overflow-hidden">
+        <a href="{% url 'exams:question_add_view' object.pk %}" class="card ribbon-box border shadow-none overflow-hidden">
             <div class="card-body text-muted">
                 <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
                     <span class="trending-ribbon-text">Question</span><i class=" ri-question-line text-white align-bottom float-end ms-1"></i>
@@ -24,7 +24,7 @@
                 <p class="mb-0">It's not much of an exam if it doesn't have any questions.</p>
             </div>
         </a>
-        <a href="/" class="card ribbon-box border shadow-none overflow-hidden">
+        <a href="{% url 'exams:publish_page' object.id %}" class="card ribbon-box border shadow-none overflow-hidden">
             <div class="card-body text-muted">
                 <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
                     <span class="trending-ribbon-text">Publish</span> <i class=" ri-user-shared-fill text-white align-bottom float-end ms-1"></i>

@@ -1,0 +1,42 @@
+{% extends 'base_app.html' %} {% block title %}Publish Exam{% endblock title %}
+{% block content %}
+<script>
+    function selectText(containerid) {
+      if (document.selection) {
+        // IE
+        var range = document.body.createTextRange();
+        range.moveToElementText(document.getElementById(containerid));
+        range.select();
+      } else if (window.getSelection) {
+        var range = document.createRange();
+        range.selectNode(document.getElementById(containerid));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+      }
+    }
+
+</script>
+<div class="card">
+  <div class="card-header text-center">
+    <h2>Publish <strong>"{{object.title}}"</strong> Exam</h2>
+  </div>
+  <div class="card-body">
+    {% if object.is_publish %}
+    <div class="alert alert-info" role="alert">
+      <h3 class="text-center" id="sel" onclick="selectText('sel')">
+        {{ request.get_host }}/{{object.uid}}
+      </h3>
+    </div>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="exam_id" value="{{object.id}}" />
+      <button type="submit" class="btn btn-primary col-12 btn-lg btn-block">
+        {% if object.is_publish %}Un{% endif %}Publish
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock content %} {% block extra_js %}
+{% endblock extra_js %}

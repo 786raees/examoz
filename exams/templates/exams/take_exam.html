@@ -1,0 +1,59 @@
+{% extends 'base_app.html' %} {% block title %} {{object.title}} {% endblock title %} {% block body %}
+<div class="container">
+  <div class="row m-4">
+    <div class="col-12 text-center alert alert-success">
+      <h2>{{object.title}}</h2>
+    </div>
+    <div class="col-12 text-center alert alert-info">
+      <h4>{{email}}</h4>
+    </div>
+  </div>
+  <div class="row m-4">
+    {% if object.exam_daata.all %} 
+    <form method="post" id="examForm" action="{% url 'exams:exam_form_handler' %}">
+    {% csrf_token %}
+    {% for question in object.exam_daata.all %}
+    <div class="card">
+      <h3>
+        <div class="card-header">
+          <div class="row">
+            <div class="col-1">{{forloop.counter}} -</div>
+            <div class="col-10">{{question.question_title}}</div>
+            <div class="col-1">{{question.question_marks}}</div>
+          </div>
+        </div>
+      </h3>
+      <div class="card-body">
+          {% for answer in question.answer_set.all %}
+          <input type="hidden" name="answer_for_{{forloop.parentloop.counter}}_{{forloop.counter}}" value="{{answer.answer}}">
+           
+          {% endfor %}
+          {% for option in question.option_set.all %}
+          <div class="row">
+            <div class="col-12 m-2">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    name="option_for_{{forloop.parentloop.counter}}_{{forloop.counter}}"
+                    id="option"
+                    value="{{option.option}}"
+                  />
+                  {{option.option}}
+                </label>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+    {% endfor %} 
+</form>
+<button type="submit" form="examForm" class="btn col-11 btn-success btn-lg btn-block">
+  submit
+</button>
+    {% endif %}
+  </div>
+</div>
+{% endblock body %}
