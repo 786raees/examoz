@@ -69,10 +69,11 @@ def question_add_page(request, pk):
     insert_question_form = QuestionInsert()
     if request.method == "POST":
 
+        print(request.POST.get("answer_for_1"))
+        
         for q in request.POST:
             if q:
 
-                print(q, request.POST.get(q))
                 if q.startswith('question_type_for_'):
                     type = request.POST.get(q)
                 if q.startswith('question_title__question_'):

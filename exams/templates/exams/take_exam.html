@@ -27,11 +27,6 @@
         value="{{object.id}}"
         />
       {% for question in object.exam_daata.all %}
-      <input
-        type="hidden"
-        name="{{question_id}}"
-        value="{{question.id}}"
-        />
       <div class="card">
         <h3>
           <div class="card-header">
@@ -50,7 +45,6 @@
             name="answer_for_{{question.id}}_{{forloop.counter}}"
             value="{{answer.answer}}"
           />
-
           {% endfor %} 
           {% for option in question.option_set.all %}
           <div class="row">
@@ -89,7 +83,6 @@
                 <label class="form-check-label">
                   <input
                     type="checkbox"
-                    required
                     class="form-check-input"
                     name="option_for_{{question.id}}"
                     id="option"

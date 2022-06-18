@@ -172,7 +172,7 @@ Question{% endblock title %} {% block content %}
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-info text-white add_ques" question_no="add_ques__question_${current_question_no}">Add Options</button>
+                        <button type="button" class="btn btn-info text-white add_ques_radio" question_no="add_ques__question_${current_question_no}">Add Options</button>
                     </div>
                 </div>
             </div>
@@ -296,7 +296,7 @@ Question{% endblock title %} {% block content %}
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-info text-white add_ques" question_no="add_ques__question_${current_question_no}">Add Options</button>
+                        <button type="button" class="btn btn-info text-white add_ques_check" question_no="add_ques__question_${current_question_no}">Add Options</button>
                     </div>
                 </div>
             </div>
@@ -321,7 +321,30 @@ Question{% endblock title %} {% block content %}
         let elementToRemove = e.target.closest(".form-check");
         elementToRemove.remove();
       }
-      if (eclass.includes("add_ques")) {
+      if (eclass.includes("add_ques_radio")) {
+        let question_no = e.target.getAttribute("question_no");
+        let add_option_section = $(`#${question_no}`);
+        add_option_section.append(`
+            <div class="form-check m-2 option_no_${option_no}">
+                <div class="row">
+                    <div class="col-1">
+                        <input class="form-check-input mt-2" type="radio" value="${option_no}" name="answer_for_${option_no}" id="answer_for_${current_question_no}"/>
+                    </div>
+                    <div class="col-10">
+                        <input type="text" class="form-control" required name="option_value_${option_no}_for_${current_question_no}">
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-danger btn-sm text-white delete-check-btn">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            `);
+        option_no += 1;
+        console.log(add_option_section);
+      }
+      if (eclass.includes("add_ques_check")) {
         let question_no = e.target.getAttribute("question_no");
         let add_option_section = $(`#${question_no}`);
         add_option_section.append(`
