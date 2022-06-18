@@ -72,6 +72,36 @@
           </div>
           {% endfor %}
         </div>
+        {% elif question.question_type == "Multiple Choices (choose many)" %}
+        <div class="card-body">
+          {% for answer in question.answer_set.all %}
+          <input
+            type="hidden"
+            name="answer_for_{{question.id}}_{{forloop.counter}}"
+            value="{{answer.answer}}"
+          />
+
+          {% endfor %} 
+          {% for option in question.option_set.all %}
+          <div class="row">
+            <div class="col-12 m-2">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    type="checkbox"
+                    required
+                    class="form-check-input"
+                    name="option_for_{{question.id}}"
+                    id="option"
+                    value="{{option.option}}_{{forloop.counter}}"
+                  />
+                  {{option.option}}
+                </label>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
         {% endif %} 
       </div>
       {% endfor %}

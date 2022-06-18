@@ -4,7 +4,10 @@ Question{% endblock title %} {% block content %}
   <form method="post" id="question_form">
     {% csrf_token %}
     <div class="col-12" id="add_question"></div>
-    <button type="submit" class="btn btn-success disabled  mx-4 col-12 submit-btn">
+    <button
+      type="submit"
+      class="btn btn-success disabled mx-4 col-12 submit-btn"
+    >
       Save
     </button>
   </form>
@@ -175,7 +178,131 @@ Question{% endblock title %} {% block content %}
             </div>
 
             `);
-            
+
+        setButtonDisable();
+      }
+      if (e.target.value == "Multiple Choices (choose many)") {
+        current_question_no += 1;
+        $("#add_question").append(`
+            <div class="card card-no-${current_question_no}">
+                <input type="hidden" name="question_type_for_${current_question_no}" value="${e.target.value}">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-11">
+                            <h4>Question no ${current_question_no}</h4>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger btn-sm text-white delete-card-btn">
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10">
+                            <div id="div_id_question_title__question_${current_question_no}" class="form-group">
+                            <label for="id_question_title__question_${current_question_no}" class="requiredField">
+                                Question title<span class="asteriskField">*</span>
+                            </label>
+                            <div>
+                                <textarea
+                                name="question_title__question_${current_question_no}"
+                                cols="40"
+                                rows="2"
+                                class="textarea form-control"
+                                required=""
+                                id="id_question_title__question_${current_question_no}"
+                                ></textarea>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div id="div_id_question_marks__question_${current_question_no}" class="form-group">
+                                <label for="id_question_marks__question_${current_question_no}" class="requiredField">
+                                    Question marks<span class="asteriskField">*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type="number"
+                                        name="question_marks__question_${current_question_no}"
+                                        min="0"
+                                        class="numberinput form-control"
+                                        required
+                                        id="id_question_marks__question_${current_question_no}"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="add_ques__question_${current_question_no}">
+                            <div class="form-check m-2 option_no_1">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <input class="form-check-input mt-2" type="checkbox" value="1" name="answer_for_1" id="option_1_for_${current_question_no}"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control" required name="option_value_1_for_${current_question_no}">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger btn-sm text-white delete-check-btn">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check m-2 option_no_2">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <input class="form-check-input mt-2" type="checkbox" value="2" name="answer_for_2" id="option_2_for_${current_question_no}"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control" required name="option_value_2_for_${current_question_no}">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger btn-sm text-white delete-check-btn">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check m-2 option_no_3">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <input class="form-check-input mt-2" type="checkbox" value="3" name="answer_for_3" id="option_3_for_${current_question_no}"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control" required name="option_value_3_for_${current_question_no}">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger btn-sm text-white delete-check-btn">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check m-2 option_no_4">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <input class="form-check-input mt-2" type="checkbox" value="4" name="answer_for_4" id="option_4_for_${current_question_no}"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control" required name="option_value_4_for_${current_question_no}">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger btn-sm text-white delete-check-btn">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-info text-white add_ques" question_no="add_ques__question_${current_question_no}">Add Options</button>
+                    </div>
+                </div>
+            </div>
+
+            `);
+
         setButtonDisable();
       }
 
@@ -186,9 +313,9 @@ Question{% endblock title %} {% block content %}
       var eclass = e.target.getAttribute("class");
       //   console.log(eclass);
       if (eclass.includes("delete-card-btn")) {
-          let elementToRemove = e.target.closest(".card");
-          elementToRemove.remove();
-          setButtonDisable();
+        let elementToRemove = e.target.closest(".card");
+        elementToRemove.remove();
+        setButtonDisable();
       }
       if (eclass.includes("delete-check-btn")) {
         let elementToRemove = e.target.closest(".form-check");
@@ -201,7 +328,7 @@ Question{% endblock title %} {% block content %}
             <div class="form-check m-2 option_no_${option_no}">
                 <div class="row">
                     <div class="col-1">
-                        <input class="form-check-input mt-2" type="radio" value="${option_no}" name="answer_for_${current_question_no}" id="answer_for_${current_question_no}"/>
+                        <input class="form-check-input mt-2" type="checkbox" value="${option_no}" name="answer_for_${option_no}" id="answer_for_${current_question_no}"/>
                     </div>
                     <div class="col-10">
                         <input type="text" class="form-control" required name="option_value_${option_no}_for_${current_question_no}">

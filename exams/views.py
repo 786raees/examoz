@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from .models import Exam, Question, Answer, Option
+from .models import Exam, Question, Answer, Option, Result
 from .forms import ExamSettingsForm, QuestionInsert
 # Create your views here.
 
@@ -72,7 +72,7 @@ def question_add_page(request, pk):
         for q in request.POST:
             if q:
 
-                # print(request.POST.get('question_title__question_1'))
+                print(q, request.POST.get(q))
                 if q.startswith('question_type_for_'):
                     type = request.POST.get(q)
                 if q.startswith('question_title__question_'):
@@ -111,7 +111,7 @@ def publish_page(request, uid):
 
 
 def take_student_identity(request, uid):
-    exam = Exam.objects.filter(uid=uid).first()
+    exam = Exam.objects.prefetch_related('exam_daata__answer_set','exam_daata__option_set').filter(uid=uid).first()
     context = {'object': exam}
 
     if not exam.is_publish:
@@ -134,25 +134,28 @@ def exam_form_handler(request):
 
         if q.startswith('exam_id'):
             exam_id = request.POST.get(q)
+            result = Result(email=email, exam_id=exam_id)
+            result.save()
 
-        if q.startswith('answer_for_'):
-            answer = request.POST.get(q)
 
         if q.startswith('option_for_'):
             option = request.POST.get(q).split("_")[-1]
             question_no = str(q).replace('option_for_','')
             answers_list = []
+
             for q in request.POST:
                 if q.startswith(f'answer_for_{question_no}'):
                     answers_list.append(request.POST.get(q))
                     print(q,request.POST.get(q))
+            if option in answers_list:
+                result.question.add(question_no)
             print(option in answers_list)
 
     return render(request, 'exams/exam_result.html')
 
 
 def result_page(request, pk):
-    exam = Exam.objects.filter(pk=pk).first()
+    exam = Exam.objects.prefetch_related('exam_daata','result_set__question').filter(pk=pk).first()
     context = {'object': exam}
 
     return render(request, 'exams/result_page.html', context)
