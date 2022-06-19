@@ -5,11 +5,18 @@ from ckeditor.fields import RichTextField
 import uuid
 
 # Create your models here.
+class Course(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.name}"
+
 class Exam(models.Model):
 
     uid = models.UUIDField(unique=True, default=uuid.uuid4)
 
     title = models.CharField(_("title"), max_length=50)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     introduction = RichTextField(null=True, blank=True, help_text="<br>This text is displayed on the top of the test.")
     randomize_question = models.BooleanField( _('Randomize the order of the question'), default=False)
     conclusion_text = RichTextField(null=True, blank=True, help_text="<br>This text is displayed after the test is submited.")

@@ -15,6 +15,8 @@ urlpatterns = [
     path("exam/publish/<int:uid>/", exam_view.publish_page, name="publish_page"),
     path("exam/result/<int:pk>/", exam_view.result_page, name="result_page"),
     path("exam/exam_form_handler/", exam_view.exam_form_handler, name="exam_form_handler"),
+    path("course/add/", exam_view.CourseCreateView.as_view(), name="course_add_view"),
+    path("course/change/<int:pk>/", exam_view.CourseUpdateView.as_view(), name="course_update_view"),
 
 
 ]

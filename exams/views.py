@@ -1,9 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from .models import Exam, Question, Answer, Option, Result
+from .models import Course, Exam, Question, Answer, Option, Result
 from .forms import ExamSettingsForm, QuestionInsert
 # Create your views here.
 
@@ -35,7 +36,7 @@ class ExamList(LoginRequiredMixin, ListView):
 
 class ExamCreateView(LoginRequiredMixin, UnSuccessMessageMixin, CreateView):
     model = Exam
-    fields = ('title',)
+    fields = ('title','course')
 
 
 class ExamUpdateView(LoginRequiredMixin, UnSuccessMessageMixin, UpdateView):
@@ -51,6 +52,13 @@ def delete_exam(request, pk):
     messages.warning(
         request, f'Exam "<strong>{obj_list.title}</strong>" delete successfully')
     return redirect('exams:exam_list_view')
+
+def delete_course(request, pk):
+    obj_list = Course.objects.filter(id=pk).first()
+    obj_list.delete()
+    messages.warning(
+        request, f'Course "<strong>{obj_list.name}</strong>" delete successfully')
+    return redirect('exams:course_add_view')
 
 
 class ExamDetailView(DetailView):
@@ -112,16 +120,20 @@ def publish_page(request, uid):
 
 
 def take_student_identity(request, uid):
-    exam = Exam.objects.prefetch_related('exam_daata__answer_set','exam_daata__option_set').filter(uid=uid).first()
-    context = {'object': exam}
+    exam = Exam.objects.prefetch_related('exam_daata__answer_set','exam_daata__option_set').filter(uid=uid)
+    context = {'object': exam.first()}
 
-    if not exam.is_publish:
+    if not exam.first().is_publish:
         return render(request, 'exams/exam_not_published.html')
 
     if request.method == "POST":
+
         email = request.POST.get("identity")
-        context['email'] = email
-        return render(request, 'exams/take_exam.html', context)
+        if exam.filter(student_identifier__icontains=email):
+            context['email'] = email
+            return render(request, 'exams/take_exam.html', context)
+        else:
+            return HttpResponse('You are not allowed to view this page')
 
     return render(request, 'exams/take_student_identity.html', context)
 
@@ -155,7 +167,7 @@ def exam_form_handler(request):
 
             if options_set == answers_set:
                 result.question.add(question_id)
-                
+
             elif not answers_set.isdisjoint(options_set):
                 result.partial_question.add(question_id)
 
@@ -167,3 +179,24 @@ def result_page(request, pk):
     context = {'object': exam}
 
     return render(request, 'exams/result_page.html', context)
+
+
+
+class CourseCreateView(LoginRequiredMixin, UnSuccessMessageMixin, CreateView):
+    model = Course
+    fields = ('name',)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_list"] = Course.objects.all()
+        return context
+    
+
+
+class CourseUpdateView(LoginRequiredMixin, UnSuccessMessageMixin, UpdateView):
+    model = Course
+    success_message = '"<strong>%(name)s</strong>" updated successfully'
+    fields = ('name',)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_list"] = Course.objects.all()
+        return context

@@ -5,7 +5,7 @@ class ExamSettingsForm(forms.ModelForm):
     class Meta:
         model = Exam
         fields = '__all__'
-        exclude = ('status','question','no_of_score','avg_score',)
+        exclude = ('uid','status','question','no_of_score','avg_score',)
         
 
 class QuestionInsert(forms.ModelForm):
