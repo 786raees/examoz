@@ -69,13 +69,13 @@ def question_add_page(request, pk):
     insert_question_form = QuestionInsert()
     if request.method == "POST":
 
-        print(request.POST.get("answer_for_1"))
-        
+
         for q in request.POST:
             if q:
 
                 if q.startswith('question_type_for_'):
                     type = request.POST.get(q)
+
                 if q.startswith('question_title__question_'):
                     title = request.POST.get(q)
 
@@ -138,19 +138,26 @@ def exam_form_handler(request):
             result = Result(email=email, exam_id=exam_id)
             result.save()
 
+        if q.startswith('question_id_'):
+            question_id = request.POST.get(q)
+            
+            answers_set = set()
+            options_set = set()
 
-        if q.startswith('option_for_'):
-            option = request.POST.get(q).split("_")[-1]
-            question_no = str(q).replace('option_for_','')
-            answers_list = []
+            for items in request.POST:
+                if items.startswith(f'option_for_{question_id}'):
+                    option = request.POST.get(items)
+                    options_set.add(option)
 
-            for q in request.POST:
-                if q.startswith(f'answer_for_{question_no}'):
-                    answers_list.append(request.POST.get(q))
-                    print(q,request.POST.get(q))
-            if option in answers_list:
-                result.question.add(question_no)
-            print(option in answers_list)
+                if items.startswith(f'answer_for_{question_id}'):
+                    answer = request.POST.get(items)
+                    answers_set.add(answer)
+
+            if options_set == answers_set:
+                result.question.add(question_id)
+                
+            elif not answers_set.isdisjoint(options_set):
+                result.partial_question.add(question_id)
 
     return render(request, 'exams/exam_result.html')
 

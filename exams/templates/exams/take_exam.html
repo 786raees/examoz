@@ -26,7 +26,12 @@
         name="exam_id"
         value="{{object.id}}"
         />
-      {% for question in object.exam_daata.all %}
+        {% for question in object.exam_daata.all %}
+        <input
+        type="hidden"
+        name="question_id_{{forloop.counter}}"
+        value="{{question.id}}"
+        />
       <div class="card">
         <h3>
           <div class="card-header">
@@ -45,6 +50,7 @@
             name="answer_for_{{question.id}}_{{forloop.counter}}"
             value="{{answer.answer}}"
           />
+
           {% endfor %} 
           {% for option in question.option_set.all %}
           <div class="row">
@@ -57,7 +63,7 @@
                     class="form-check-input"
                     name="option_for_{{question.id}}"
                     id="option"
-                    value="{{option.option}}_{{forloop.counter}}"
+                    value="{{forloop.counter}}"
                   />
                   {{option.option}}
                 </label>
@@ -70,11 +76,11 @@
         <div class="card-body">
           {% for answer in question.answer_set.all %}
           <input
-            type="hidden"
-            name="answer_for_{{question.id}}_{{forloop.counter}}"
-            value="{{answer.answer}}"
+          type="hidden"
+          name="answer_for_{{question.id}}_{{forloop.counter}}"
+          value="{{answer.answer}}"
           />
-
+          
           {% endfor %} 
           {% for option in question.option_set.all %}
           <div class="row">
@@ -82,25 +88,69 @@
               <div class="form-check">
                 <label class="form-check-label">
                   <input
-                    type="checkbox"
-                    class="form-check-input"
-                    name="option_for_{{question.id}}"
+                  type="checkbox"
+                  class="form-check-input"
+                    name="option_for_{{question.id}}_{{forloop.counter}}"
                     id="option"
-                    value="{{option.option}}_{{forloop.counter}}"
-                  />
-                  {{option.option}}
-                </label>
+                    value="{{forloop.counter}}"
+                    />
+                    {{option.option}}
+                  </label>
               </div>
             </div>
           </div>
           {% endfor %}
+        </div>
+        {% elif question.question_type == "True/False" %}
+        {% for answer in question.answer_set.all %}
+        <input
+          type="hidden"
+          name="answer_for_{{question.id}}_{{forloop.counter}}"
+          value="{{answer.answer}}"
+          />
+          {% endfor %}
+          <div class="row m-3">
+            <div class="form-check mb-4">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="option_for_{{question.id}}" value="1" checked>
+                True
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="option_for_{{question.id}}" value="0">
+                  False
+                </label>
+              </div>
+            </div>
+        {% elif question.question_type == "Fill in the blank" or question.question_type == "Short Question" %}
+        {% for answer in question.answer_set.all %}
+        <input
+          type="hidden"
+          name="answer_for_{{question.id}}_{{forloop.counter}}"
+          value="{{answer.answer}}"
+          />
+          {% endfor %}
+        <div class="col-11 m-3">
+          <input type="text" class="form-control" name="option_for_{{question.id}}">
+        </div>
+        {% elif question.question_type == "Essay" %}
+        {% for answer in question.answer_set.all %}
+        <input
+          type="hidden"
+          name="answer_for_{{question.id}}_{{forloop.counter}}"
+          value="{{answer.answer}}"
+          />
+          {% endfor %}
+        <div class="col-11 m-3">
+          <textarea class="form-control" name="option_for_${current_question}" id="essay_${current_question}" rows="3"></textarea>
         </div>
         {% endif %} 
       </div>
       {% endfor %}
     </form>
     <button
-      type="submit"
+    type="submit"
       form="examForm"
       class="btn col-11 btn-success btn-lg btn-block"
     >
@@ -109,4 +159,31 @@
     {% endif %}
   </div>
 </div>
+<script>
+    var showAlert = () => { alert('This action is prevented by owner of the website') };
+      document.addEventListener('contextmenu', event => {
+        event.preventDefault()
+        showAlert()
+        return false;
+      });
+      document.onkeydown = function (e) {
+        
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+          showAlert()
+          return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+          showAlert()
+          return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+          showAlert()
+          return false;
+        }
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+          showAlert()
+          return false;
+        }
+      }
+</script>
 {% endblock body %}

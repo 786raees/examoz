@@ -305,6 +305,265 @@ Question{% endblock title %} {% block content %}
 
         setButtonDisable();
       }
+      if (e.target.value == "True/False") {
+        current_question_no += 1;
+        $("#add_question").append(`
+            <div class="card card-no-${current_question_no}">
+                <input type="hidden" name="question_type_for_${current_question_no}" value="${e.target.value}">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-11">
+                            <h4>Question no ${current_question_no}</h4>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger btn-sm text-white delete-card-btn">
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10">
+                            <div id="div_id_question_title__question_${current_question_no}" class="form-group">
+                            <label for="id_question_title__question_${current_question_no}" class="requiredField">
+                                Question title<span class="asteriskField">*</span>
+                            </label>
+                            <div>
+                                <textarea
+                                name="question_title__question_${current_question_no}"
+                                cols="40"
+                                rows="2"
+                                class="textarea form-control"
+                                required=""
+                                id="id_question_title__question_${current_question_no}"
+                                ></textarea>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div id="div_id_question_marks__question_${current_question_no}" class="form-group">
+                                <label for="id_question_marks__question_${current_question_no}" class="requiredField">
+                                    Question marks<span class="asteriskField">*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type="number"
+                                        name="question_marks__question_${current_question_no}"
+                                        min="0"
+                                        class="numberinput form-control"
+                                        required
+                                        id="id_question_marks__question_${current_question_no}"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-3" id="add_ques__question_${current_question_no}">
+                            <div class="form-check mb-4">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="answer_for_${current_question_no}" value="1" checked>
+                                    True
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="answer_for_${current_question_no}" value="0">
+                                    False
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            `);
+
+        setButtonDisable();
+      }
+      if (e.target.value == "Text Block") {
+        current_question_no += 1;
+        $("#add_question").append(`
+            <div class="card card-no-${current_question_no}">
+                <input type="hidden" name="question_type_for_${current_question_no}" value="${e.target.value}">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-11">
+                            <h4>Question no ${current_question_no}</h4>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger btn-sm text-white delete-card-btn">
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="div_id_question_title__question_${current_question_no}" class="form-group">
+                            <label for="id_question_title__question_${current_question_no}" class="requiredField">
+                                Title<span class="asteriskField">*</span>
+                            </label>
+                            <div>
+                                <textarea
+                                name="question_title__question_${current_question_no}"
+                                cols="40"
+                                rows="2"
+                                class="textarea form-control"
+                                required=""
+                                id="id_question_title__question_${current_question_no}"
+                                ></textarea>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            `);
+
+        setButtonDisable();
+      }
+      if (
+        e.target.value == "Fill in the blank" ||
+        e.target.value == "Short Question"
+      ) {
+        current_question_no += 1;
+        $("#add_question").append(`
+            <div class="card card-no-${current_question_no}">
+                <input type="hidden" name="question_type_for_${current_question_no}" value="${e.target.value}">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-11">
+                            <h4>Question no ${current_question_no}</h4>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger btn-sm text-white delete-card-btn">
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10">
+                            <div id="div_id_question_title__question_${current_question_no}" class="form-group">
+                            <label for="id_question_title__question_${current_question_no}" class="requiredField">
+                                Question title<span class="asteriskField">*</span>
+                            </label>
+                            <div>
+                                <textarea
+                                name="question_title__question_${current_question_no}"
+                                cols="40"
+                                rows="2"
+                                class="textarea form-control"
+                                required=""
+                                id="id_question_title__question_${current_question_no}"
+                                ></textarea>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div id="div_id_question_marks__question_${current_question_no}" class="form-group">
+                                <label for="id_question_marks__question_${current_question_no}" class="requiredField">
+                                    Question marks<span class="asteriskField">*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type="number"
+                                        name="question_marks__question_${current_question_no}"
+                                        min="0"
+                                        class="numberinput form-control"
+                                        required
+                                        id="id_question_marks__question_${current_question_no}"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-3" id="add_ques__question_${current_question_no}"> 
+                            
+                            <div class="form-group">
+                                <label for="answer_for_${current_question_no}">Answer</label>
+                                <input type="text"
+                                class="form-control form-control-lg" name="answer_for_${current_question_no}" id="answer_for_${current_question_no}" placeholder="Add Answer">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-info text-white add_ques_ans" question_no="add_ques__question_${current_question_no}">Add Answer</button>
+                    </div>
+                </div>
+            </div>
+
+            `);
+
+        setButtonDisable();
+      }
+      if (e.target.value == "Essay") {
+        current_question_no += 1;
+        $("#add_question").append(`
+            <div class="card card-no-${current_question_no}">
+                <input type="hidden" name="question_type_for_${current_question_no}" value="${e.target.value}">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-11">
+                            <h4>Question no ${current_question_no}</h4>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger btn-sm text-white delete-card-btn">
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10">
+                            <div id="div_id_question_title__question_${current_question_no}" class="form-group">
+                            <label for="id_question_title__question_${current_question_no}" class="requiredField">
+                                Question title<span class="asteriskField">*</span>
+                            </label>
+                            <div>
+                                <textarea
+                                name="question_title__question_${current_question_no}"
+                                cols="40"
+                                rows="2"
+                                class="textarea form-control"
+                                required=""
+                                id="id_question_title__question_${current_question_no}"
+                                ></textarea>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div id="div_id_question_marks__question_${current_question_no}" class="form-group">
+                                <label for="id_question_marks__question_${current_question_no}" class="requiredField">
+                                    Question marks<span class="asteriskField">*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type="number"
+                                        name="question_marks__question_${current_question_no}"
+                                        min="0"
+                                        class="numberinput form-control"
+                                        required
+                                        id="id_question_marks__question_${current_question_no}"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-3" id="add_ques__question_${current_question_no}"> 
+                            <div class="form-group">
+                                <label for="essay_${current_question_no}">Essay</label>
+                                <textarea class="form-control" name="answer_for_${current_question_no}" id="essay_${current_question_no}" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            `);
+
+        setButtonDisable();
+      }
 
       e.target.value = "";
     });
@@ -319,6 +578,10 @@ Question{% endblock title %} {% block content %}
       }
       if (eclass.includes("delete-check-btn")) {
         let elementToRemove = e.target.closest(".form-check");
+        elementToRemove.remove();
+      }
+      if (eclass.includes("delete-answer-btn")) {
+        let elementToRemove = e.target.closest(".form-group");
         elementToRemove.remove();
       }
       if (eclass.includes("add_ques_radio")) {
@@ -363,6 +626,27 @@ Question{% endblock title %} {% block content %}
                     </div>
                 </div>
             </div>
+            `);
+        option_no += 1;
+        console.log(add_option_section);
+      }
+      if (eclass.includes("add_ques_ans")) {
+        let question_no = e.target.getAttribute("question_no");
+        let add_option_section = $(`#${question_no}`);
+        add_option_section.append(`
+
+                <div class="form-group row">
+                    <div class="col-11">
+                        <label for="answer_for_${option_no}">Answer</label>
+                        <input type="text"
+                        class="form-control form-control-lg" name="answer_for_${option_no}" id="answer_for_${option_no}" placeholder="Add Answer">
+                    </div>
+                    <div class="col-1 m-auto">
+                        <button type="button" class="btn btn-danger btn-sm text-white delete-answer-btn">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </div>
+                </div>
             `);
         option_no += 1;
         console.log(add_option_section);

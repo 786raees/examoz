@@ -29,7 +29,7 @@ class Exam(models.Model):
     anyone_with_password = models.BooleanField(_("Anyone who enter a password of your choice"), default=False)
     anyone_with_unique_identifier = models.BooleanField(_("Anyone who enter a unique identifier from a list that I specify"), default=False)
     anyone_with_unique_email = models.BooleanField(_("Anyone who enter an E-mail address from a list that I specify"), default=False)
-    student_identifier = models.CharField(_("student_identifier"), max_length=100, help_text='What should test takers enter to identify themselves?', default='please enter your school email address')
+    student_identifier = models.TextField(_("student_identifier"), help_text='What should test takers enter to identify themselves?', default='please enter your school email address')
 
     # notifications
     class NotificationChoices(models.TextChoices):
@@ -63,7 +63,11 @@ class Question(models.Model):
         true_false = 'True/False','True/False'
         matching = 'Matching','Matching'
         fill_in_the_blank = 'Fill in the blank','Fill in the blank'
+        short = 'Short Question','Short Question'
         essay = 'Essay','Essay'
+        text_block = 'Text Block','Text Block'
+        poll = 'Poll','Poll'
+        group = 'Group','Group'
 
     question_type = models.CharField(choices=QUESTIONTYPE.choices, blank=True, null=True, max_length=30)
     exam_name = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='exam_daata')
@@ -94,6 +98,7 @@ class Result(models.Model):
     email = models.EmailField(max_length=254)
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     question = models.ManyToManyField(Question)
+    partial_question = models.ManyToManyField(Question, related_name='partial_question')
 
     def __str__(self):
         return str(self.email)

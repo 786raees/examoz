@@ -35,6 +35,8 @@
                             
                             {% if question in result.question.all %}
                             <td class="text-success"><i class="ri-checkbox-circle-line fs-17 align-middle"></i></td>
+                            {% elif question in result.partial_question.all %}
+                            <td class="text-warning"><i class="ri-checkbox-circle-line fs-17 align-middle"></i></td>
                             {% else %}
                             <td class="text-danger"><i class="ri-close-circle-line fs-17 align-middle"></i></td>
                             {% endif %}
