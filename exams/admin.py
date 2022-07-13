@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import Answer, Exam, Option, Question, Result
+from .models import Answer, Exam, Option, Question, Result, Course
 # Register your models here.
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('name',)
 
 @admin.register(Exam)
 class ExamAdmin(admin.ModelAdmin):
