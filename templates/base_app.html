@@ -29,6 +29,7 @@
         {% block extra_css %}
 
         {% endblock extra_css %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     </head>
 {% block body %}
@@ -1017,7 +1018,7 @@
                             </li>
                             {% endif %}
                             <li class="nav-item">
-                                <a class="nav-link" href="/" role="button">
+                                <a class="nav-link" href="{% url 'exams:course_add_view' %}" role="button">
                                     <i class=" ri-file-text-line"></i> <span data-key="t-Tests">Course</span>
                                 </a>
                             </li>

@@ -10,6 +10,15 @@ class Course(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+    
+    def get_absolute_url(self):
+        return reverse('exams:course_add_view')
+
+    def get_edit_url(self):
+        return reverse('exams:course_update_view', kwargs={'pk': self.pk})
+
+    def get_delete_url(self):
+        return reverse('exams:course_delete_view', kwargs={'pk': self.pk})
 
 class Exam(models.Model):
 

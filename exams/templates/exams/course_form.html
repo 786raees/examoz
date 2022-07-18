@@ -1,0 +1,54 @@
+{% extends 'base_app.html' %}{% load static crispy_forms_tags %}
+{% block title %}Add/Modify Course{% endblock title %}
+{% block content %}
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <h1>Add/Modify Course</h1>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <!-- Gradient Buttons -->
+                    <button type="submit" class="btn mt-4 btn-primary bg-gradient waves-effect waves-light">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <h1>Courses List</h1>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-inverse table-responsive">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in object_list %}
+                              
+                            <tr>
+                                <td scope="row">{{forloop.counter}}</td>
+                                <td>{{obj.name}}</td>
+                                <td>
+                                    <a href="{{obj.get_edit_url}}" class="btn btn-primary btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <a href="{{obj.get_delete_url}}" class="btn btn-primary btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

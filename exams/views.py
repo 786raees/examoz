@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from .models import Course, Exam, Question, Answer, Option, Result
 from .forms import ExamSettingsForm, QuestionInsert
@@ -17,8 +18,7 @@ class UnSuccessMessageMixin(SuccessMessageMixin):
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
-        unsuccess_message = self.get_unsuccess_message(form.cleaned_data)
-        if unsuccess_message:
+        if unsuccess_message := self.get_unsuccess_message(form.cleaned_data):
             messages.warning(self.request, unsuccess_message)
         else:
             messages.warning(
@@ -82,7 +82,7 @@ def question_add_page(request, pk):
             if q:
 
                 if q.startswith('question_type_for_'):
-                    type = request.POST.get(q)
+                    question_type = request.POST.get(q)
 
                 if q.startswith('question_title__question_'):
                     title = request.POST.get(q)
@@ -90,7 +90,7 @@ def question_add_page(request, pk):
                 if q.startswith('question_marks__question_'):
                     marks = request.POST.get(q)
                     question = Question(
-                        question_type=type, question_title=title,
+                        question_type=question_type, question_title=title,
                         question_marks=marks, exam_name=exam)
                     question.save()
 
@@ -191,6 +191,8 @@ class CourseCreateView(LoginRequiredMixin, UnSuccessMessageMixin, CreateView):
         return context
     
 
+    
+
 
 class CourseUpdateView(LoginRequiredMixin, UnSuccessMessageMixin, UpdateView):
     model = Course
@@ -200,3 +202,11 @@ class CourseUpdateView(LoginRequiredMixin, UnSuccessMessageMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["object_list"] = Course.objects.all()
         return context
+
+
+def course_delete_view(request, pk):
+    obj_list = Course.objects.filter(id=pk).first()
+    obj_list.delete()
+    messages.warning(
+        request, f'Course "<strong>{obj_list.name}</strong>" delete successfully')
+    return redirect('exams:course_add_view')
